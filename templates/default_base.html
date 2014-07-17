@@ -46,9 +46,21 @@
             </div>
             <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav navbar-right">
-                  <li>
-                    <a href="/pamplesneak">Pamplesneak</a>
-                  </li>  
+                <li class="dropdown">
+                  <a href="{% url 'pamplesneak' %}" class="dropdown-toggle" data-toggle="dropdown">Pamplesneak<span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <div class="centered">
+                      <li>
+                        <a href="{% url 'pamplewatch' %}" role="button">Watch!</a>
+                      </li>  
+                      <li>                      
+                        <a href="{% url 'pampleref' %}" role="button">Ref!</a>
+                      </li>  
+                      <li>
+                        <a href="{% url 'pampleplay' %}" role="button">Play!</a>                      
+                      </li>
+                    </div>
+                  </ul>
                   <li>
                     <a href="/pamplesneak">Pamplegames</a>
                   </li>  

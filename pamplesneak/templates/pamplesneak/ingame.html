@@ -1,0 +1,42 @@
+{% extends "default_base.html" %}
+
+{% load static %}
+
+{% block jumbotron %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="well well-sm">
+      <div class="centered">
+        <h1>Welcome to the Pamplesneak lobby!</h1>
+        <p>Hang out, choose a game or create one, we wont judge.</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="col-md-12">
+    <div class="centered">
+      <h1>Can't see a game that interests you? Create one.</h1>
+      <a class="btn btn-warning" href="{% url 'creategame' %}" role="button">Create a Game!</a>   
+    </div>
+  </div>
+ </div>
+<div class="container">
+  <div class="col-md-12">
+  {% if games_list %}
+  <h1>Games going on right now</h1>
+      {% for game in games_list %}
+      <table>
+        <tr><td>name:</td><td>{{ game.game_name }}</td></tr>
+        <tr><td>players:</td><td>{{ game.active_players }}/{{ game.max_players }}</td></tr>
+        <tr><td>word bank size:</td><td>{{ game.word_bank_size }}</td></tr>
+      </table>
+      <a class="btn btn-warning" href="{% url 'joingame' game.game_id %}" role="button">Join Game!</a>
+      {% endfor %}
+  {% endif %}
+  </div>
+</div>
+{% endblock %}
