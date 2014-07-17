@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
-
+from dajaxice.core import dajaxice_autodiscover, dajaxice_config
+dajaxice_autodiscover()
 from django.contrib import admin
 admin.autodiscover()
 
@@ -12,4 +13,5 @@ urlpatterns = patterns('',
     url(r'^pampleprofile/', include('userprofile.urls')),
     url(r'^pamplesneak/', include('pamplesneak.urls')),
     url(r'^pamplegames/', include('pamplegames.urls')),
+    url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
 )

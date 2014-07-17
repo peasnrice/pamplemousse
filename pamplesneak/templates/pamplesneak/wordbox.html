@@ -1,0 +1,12 @@
+{% load bootstrap3 %}
+{% load dajaxice_templatetags %}
+
+<div id="words_box">
+{% if word_list %}
+	{% for word in word_list %}
+		<h2>{{ word }}</h2>
+	{% endfor %}
+{% else %}
+	<h1>Something went wrong</h1>
+{% endif %}
+</div>

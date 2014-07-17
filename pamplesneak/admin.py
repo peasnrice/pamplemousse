@@ -1,3 +1,5 @@
 from django.contrib import admin
+from pamplesneak.models import Pamplesneak, Player
 
-# Register your models here.
+admin.site.register(Pamplesneak)
+admin.site.register(Player)

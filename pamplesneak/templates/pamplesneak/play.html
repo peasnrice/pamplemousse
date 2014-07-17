@@ -31,13 +31,14 @@
       <div class="row">
         <div class="col-md-3">
           <table>
+            <tr><td>Pamplesneak number:</td><td>{{ game.id }}</td></tr>    
             <tr><td>name:</td><td>{{ game.game_name }}</td></tr>
             <tr><td>players:</td><td>{{ game.active_players }}/{{ game.max_players }}</td></tr>
             <tr><td>word bank size:</td><td>{{ game.word_bank_size }}</td></tr>
           </table>
         </div>
         <div class="col-md-3">
-          <a class="btn btn-warning" href="{% url 'joingame' game.id %}" role="button">Join Game!</a>
+          <a class="btn btn-warning" href="{% url 'joingame' game_id=game.id slug=game.slug %}" role="button">Join Game!</a>
         </div>
       </div>
       {% endfor %}

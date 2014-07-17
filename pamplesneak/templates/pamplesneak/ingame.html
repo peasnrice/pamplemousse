@@ -1,6 +1,20 @@
 {% extends "default_base.html" %}
 
+{% load bootstrap3 %}
+{% load dajaxice_templatetags %}
 {% load static %}
+
+{% block head %}
+{% dajaxice_js_import %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="{% static "dist/js/jquery.dajax.core.js" %}" type="text/javascript" charset="UTF-8">></script>
+
+<script>
+function refresh_words(word_bank_size){
+  Dajaxice.pamplesneak.refresh_words(Dajax.process,{'word_bank_size':word_bank_size});
+}
+</script>
+{% endblock %}
 
 {% block jumbotron %}
 <div class="row">
@@ -8,7 +22,7 @@
     <div class="well well-sm">
       <div class="centered">
         <h1>Welcome to the Pamplesneak lobby!</h1>
-        <p>Hang out, choose a game or create one, we wont judge.</p>
+        <p>Please wait here while we connect you with another player, or don't.</p>
       </div>
     </div>
   </div>
@@ -17,26 +31,25 @@
 
 {% block content %}
 <div class="container">
-  <div class="col-md-12">
-    <div class="centered">
-      <h1>Can't see a game that interests you? Create one.</h1>
-      <a class="btn btn-warning" href="{% url 'creategame' %}" role="button">Create a Game!</a>   
+  <div class="row">
+    <div class="col-md-12">
+      <div class="well">
+        <div class="centered">
+          <h1>The word of the moment is<b> '{{ word }}'</b></h1>
+        </div>
+      </div>
     </div>
   </div>
- </div>
-<div class="container">
-  <div class="col-md-12">
-  {% if games_list %}
-  <h1>Games going on right now</h1>
-      {% for game in games_list %}
-      <table>
-        <tr><td>name:</td><td>{{ game.game_name }}</td></tr>
-        <tr><td>players:</td><td>{{ game.active_players }}/{{ game.max_players }}</td></tr>
-        <tr><td>word bank size:</td><td>{{ game.word_bank_size }}</td></tr>
-      </table>
-      <a class="btn btn-warning" href="{% url 'joingame' game.game_id %}" role="button">Join Game!</a>
-      {% endfor %}
-  {% endif %}
+  <div class="row">
+    <div class="col-md-12">
+      <div class="well">
+        <div class="centered">
+          <h1><b>Your words are...!</b></h1>
+          {% include "pamplesneak/wordbox.html" %}
+          <button id="get_more_words_button" value="get words" class="btn btn-warning" onclick="refresh_words({{ word_bank_size }});")>Ready for more words!</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}

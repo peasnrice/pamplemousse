@@ -7,5 +7,5 @@ urlpatterns = patterns('',
     url(r'^pampleref/$', views.pampleref, name='pampleref'),
     url(r'^pamplewatch/$', views.pamplewatch, name='pamplewatch'),
     url(r'^pampleplay/create$', views.creategame, name='creategame'),
-    url(r'^pampleplay/(?P<game_id>\d+)/$', views.joingame, name='joingame'),
+    url(r'^pampleplay/(?P<game_id>\d+)//(?P<slug>[-\w\d]+)/$', views.joingame, name='joingame'),
 )
