@@ -6,8 +6,6 @@ __pycache__/
 *.so
 
 # Distribution / packaging
-.Python
-env/
 bin/
 build/
 develop-eggs/
@@ -27,7 +25,6 @@ pip-log.txt
 pip-delete-this-directory.txt
 
 # Unit test / coverage reports
-htmlcov/
 .tox/
 .coverage
 .cache
@@ -52,3 +49,9 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+*.sqlite3
+
+local_settings.py
+
+*/migrations/*
+userprofile/migrations/0001_initial.py
