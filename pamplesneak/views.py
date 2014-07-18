@@ -87,8 +87,12 @@ def joingame(request, game_id, slug):
     pample_info.previous_games.add(player)
     pample_info.save()
 
+    game.number_of_players = game.getCurrentPlayers()
+    game.save()
+
     if request.method == "POST":
-        players_query = Player.objects.filter(game=game).exclude(id=player.id)
+        all_players_query = Player.objects.filter(game=game)
+        players_query = all_players_query.exclude(id=player.id)
         players_dict = {}
         for p in players_query:
             players_dict[p.id] = p.name
@@ -110,9 +114,12 @@ def joingame(request, game_id, slug):
             args['word_bank_size'] = game.word_bank_size
             args['game'] = game
             args['player'] = player
+            args['players'] = all_players_query.order_by('-succesful_sneaks')
+            args['player_count'] = players_query.count()
             return HttpResponseRedirect('')
     else:
-        players_query = Player.objects.filter(game=game).exclude(id=player.id)
+        all_players_query = Player.objects.filter(game=game)
+        players_query = all_players_query.exclude(id=player.id)
         players_dict = {}
         for p in players_query:
             players_dict[p.id] = p.name
@@ -124,6 +131,8 @@ def joingame(request, game_id, slug):
     args['word_bank_size'] = game.word_bank_size
     args['game'] = game
     args['player'] = player
+    args['players'] = all_players_query.order_by('-succesful_sneaks')
+    args['player_count'] = players_query.count()
     return render_to_response('pamplesneak/ingame.html', args, context_instance=RequestContext(request))
 
 @login_required

@@ -2,7 +2,7 @@ from dajax.core import Dajax
 from django.utils import simplejson
 from dajaxice.decorators import dajaxice_register
 from django.template.loader import render_to_string
-from pamplesneak.models import GameWord
+from pamplesneak.models import GameWord, Player
 import random
 
 word_file = "/usr/share/dict/words"
@@ -40,9 +40,35 @@ def randomizeWord(request):
 
 @dajaxice_register
 def wordSuccess(request, game_id, player_id):
+    game_words = GameWord.objects.filter(game=game_id).filter(player=player_id).order_by('created')[0]
+    game_words.player=None
+    game_words.save()
+
+    player = Player.objects.get(id=player_id)
+    player.succesful_sneaks += 1
+    player.save()
+
     game_words = GameWord.objects.filter(game=game_id).filter(player=player_id).order_by('created')
-    game_words[0].player=None
-    game_words[0].save()
+    player_words = ""
+    if not game_words:
+        player_word = ""
+    else:
+        player_word = game_words[0].word
+
+    dajax = Dajax()
+    render = render_to_string('pamplesneak/playerword.html', {'player_word': player_word})
+    dajax.assign('#player_word', 'innerHTML', render)
+    return dajax.json()
+
+@dajaxice_register
+def wordFail(request, game_id, player_id):
+    game_words = GameWord.objects.filter(game=game_id).filter(player=player_id).order_by('created')[0]
+    game_words.player=None
+    game_words.save()
+
+    player = Player.objects.get(id=player_id)
+    player.failed_sneaks += 1
+    player.save()
 
     game_words = GameWord.objects.filter(game=game_id).filter(player=player_id).order_by('created')
     player_words = ""
@@ -58,22 +84,10 @@ def wordSuccess(request, game_id, player_id):
     return dajax.json()
 
 @dajaxice_register
-def wordFail(request, game_id, player_id):
-    game_words = GameWord.objects.filter(game=game_id).filter(player=player_id).order_by('created')
-    game_words[0].player=None
-    game_words[0].save()
-
-    game_words = GameWord.objects.filter(game=game_id).filter(player=player_id).order_by('created')
-    player_words = ""
-    if not game_words:
-        player_word = ""
-    else:
-        player_word = game_words[0].word
-
-    dajax = Dajax()
-    render = render_to_string('pamplesneak/playerword.html', {'player_word': player_word})
-    dajax.assign('#player_word', 'innerHTML', render)
-
-    return dajax.json()
-
+def refreshInGameStats(request, game_id, player_id):
+    players = Player.objects.filter(game=game_id).order_by('-succesful_sneaks')
     
+    dajax = Dajax()
+    render = render_to_string('pamplesneak/ingamestats.html', {'players': players})
+    dajax.assign('#ingame_stats', 'innerHTML', render)
+    return dajax.json()

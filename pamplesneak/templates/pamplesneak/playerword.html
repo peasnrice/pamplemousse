@@ -5,6 +5,13 @@
 	{% if player_word %}
 	    <h1>YOUR WORD IS<h1>
 		<h2><b>{{ player_word }}</b></h2>
+        <p>I said my word and <button id="succeeded_button" class="btn btn-xs btn-warning" value="succeed" onclick="word_succeed();">
+          Succeeded
+        </button> <b>/</b>
+         <button id="failed_button" class="btn btn-xs btn-warning" value="fail" onclick="word_fail();">
+          Failed
+        </button>
+          </p>
 	{% else %}
 		<h1>WAITING FOR WORD</h1>
 		<h2>Go get friends</h2>

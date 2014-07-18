@@ -14,14 +14,19 @@ function refresh_words(word_bank_size){
   Dajaxice.pamplesneak.refresh_words(Dajax.process,{'word_bank_size':word_bank_size});
 }
 
-function refresh(word_bank_size){
+function refresh_word(){
   Dajaxice.pamplesneak.refreshWord(Dajax.process,{'game_id':{{ game.id }},'player_id':{{ player.id }}});
 }
 
-setInterval(function(){refresh()},10000);
+function refresh_in_game_stats(){
+  Dajaxice.pamplesneak.refreshInGameStats(Dajax.process,{'game_id':{{ game.id }},'player_id':{{ player.id }}});
+}
+
+setInterval(function(){refresh_word();refresh_in_game_stats();},10000);
 
 $(function(){
-  refresh();
+  refresh_word();
+  refresh_in_game_stats();
 });
 
 function randomize_word(){
@@ -38,6 +43,12 @@ function word_succeed(){
 
 function word_fail(){
   Dajaxice.pamplesneak.wordFail(Dajax.process,{'game_id':{{ game.id }},'player_id':{{ player.id }}});
+}
+
+function randomPlayer(){
+   var array = document.getElementsByName('players');
+   var randomNumber=Math.floor(Math.random()*{{player_count}});
+   array[randomNumber].checked = true;
 }
 
 </script>
@@ -63,24 +74,17 @@ function word_fail(){
       <div class="well">
         <div class="centered">
           {% include "pamplesneak/playerword.html" %}
-          <p>I said my word and <button id="succeeded_button" class="btn btn-xs btn-warning" value="succeed" onclick="word_succeed();">
-          Succeeded
-        </button> <b>/</b>
-         <button id="failed_button" class="btn btn-xs btn-warning" value="fail" onclick="word_fail();">
-          Failed
-        </button>
-          </p>
         </div>
       </div>
     </div>
   </div>
   <div class="well">
     <div class="row">
-      <div class="col-md-4 col-md-offset-3">
+      <div class="col-md-4 col-md-offset-4">
         <button id="random_word_button" class="btn btn-warning" value="Randomize Word" onclick="randomize_word();">
           Random Word
         </button>
-        <button id="random_player_button" class="btn btn-warning" value="Randomize Player">
+        <button id="random_player_button" class="btn btn-warning" value="Randomize Player" onclick="randomPlayer();">
           Random Player
         </button>
         <form action="" method="POST">
@@ -93,8 +97,24 @@ function word_fail(){
           {% endbuttons %}
         </form>
       </div>
-      <div class="col-md-4">
-
+    </div>
+  </div>
+  <div class="well">
+    <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseStats">
+              Game Stats
+            </a>
+          </h4>
+        </div>
+        <div id="collapseStats" class="panel-collapse collapse">
+          <div class="panel-body">
+            {% include "pamplesneak/ingamestats.html" %}
+          </div>
+        </div>
       </div>
     </div>
   </div>

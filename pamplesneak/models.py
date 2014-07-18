@@ -27,6 +27,8 @@ class Player(models.Model):
     user = models.ForeignKey(User, related_name='pamplesneak_user')
     name = models.CharField(max_length=64, null=True, blank=True)
     nick = models.CharField(max_length=64, null=True, blank=True)
+    succesful_sneaks = models.IntegerField(default=0)
+    failed_sneaks = models.IntegerField(default=0)
     def __unicode__(self):
         return self.name
 

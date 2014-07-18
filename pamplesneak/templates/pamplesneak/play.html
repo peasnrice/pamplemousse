@@ -1,6 +1,33 @@
 {% extends "default_base.html" %}
 
+{% load bootstrap3 %}
+{% load dajaxice_templatetags %}
 {% load static %}
+
+{% block head %}
+{% dajaxice_js_import %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="{% static "dist/js/jquery.dajax.core.js" %}" type="text/javascript" charset="UTF-8">>
+</script>
+
+<script>
+function refresh_game_info(){
+  Dajaxice.pamplesneak.refreshWord(Dajax.process,{'game_id':{{ game.id }},'player_id':{{ player.id }}});
+}
+
+function refresh_player_stats(){
+  Dajaxice.pamplesneak.refreshPlayerStats(Dajax.process,{'game_id':{{ game.id }},'player_id':{{ player.id }}});
+}
+
+setInterval(function(){refresh_game_info(),refresh_player_stats()},10000);
+
+$(function(){
+  refresh_game_info();
+  refresh_player_stats();
+});
+</script>
+
+{% endblock %}
 
 {% block jumbotron %}
 <div class="row">

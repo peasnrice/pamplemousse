@@ -1,0 +1,12 @@
+{% load bootstrap3 %}
+{% load dajaxice_templatetags %}
+
+<div id="ingame_stats">
+  {% if players %}
+    {% for player in players %}
+      <p>{{player.name}}: succesful sneaks = {{player.succesful_sneaks}}, failed sneaks = {{player.failed_sneaks}}</p>
+    {% endfor %}
+  {% else %}
+    There are no stats
+  {% endif %}
+</div>
