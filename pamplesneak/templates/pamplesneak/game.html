@@ -13,25 +13,6 @@
 function refresh_words(word_bank_size){
   Dajaxice.pamplesneak.refresh_words(Dajax.process,{'word_bank_size':word_bank_size});
 }
-
-function refresh(word_bank_size){
-  Dajaxice.pamplesneak.refreshWord(Dajax.process,{'game_id':{{ game.id }},'player_id':{{ player.id }}});
-}
-
-setInterval(function(){refresh()},10000);
-
-
-/*
-function refresh(){
-  Dajaxice.pamplesneak.refreshWord(Dajax.process,{'game_id':{{ game.id }},'player_id':{{ player.id }}});
-
-  setInterval("refresh()",1000);
-}
-*/
-$(function(){
-  refresh();
-});
-
 </script>
 {% endblock %}
 
@@ -50,20 +31,6 @@ $(function(){
 
 {% block content %}
 <div class="container">
-  <div class="row">
-    <div class="col-md-4">
-      <form action="" method="POST">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        {% buttons %}
-        <button type="submit" class="btn btn-warning" value="Send Word">
-          Send Word
-        </button>
-        {% endbuttons %}  
-      </form>
-      {% include "pamplesneak/playerword.html" %}
-    </div>
-  </div>
   <div class="row">
     <div class="col-md-12">
       <div class="well">

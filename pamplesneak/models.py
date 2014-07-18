@@ -25,3 +25,12 @@ class Player(models.Model):
     game = models.ForeignKey('Pamplesneak')
     name = models.CharField(max_length=64, null=True, blank=True)
     nick = models.CharField(max_length=64, null=True, blank=True)
+    def __unicode__(self):
+        return self.name
+
+class GameWord(models.Model):
+    game = models.ForeignKey('Pamplesneak')
+    player = models.ForeignKey('Player')
+    word = models.CharField(max_length=45)
+    def __unicode__(self):
+        return self.word
