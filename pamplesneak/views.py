@@ -1,8 +1,9 @@
-from django.shortcuts import render_to_response, RequestContext, get_object_or_404
+from django.shortcuts import render_to_response, RequestContext, get_object_or_404, HttpResponseRedirect
 from pamplesneak.models import Pamplesneak, Player, GameWord
 from pamplesneak.forms import PamplesneakForm, MessageSender
 from userprofile.models import UserProfile, PamplesneakInfo
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 import random
 
 word_file = "/usr/share/dict/words"
@@ -34,23 +35,7 @@ def getActiveGames():
 
 @login_required
 def pamplesneak(request):
-    if request.method == "POST":
-        form = MessageSender(data=request.POST)
-        if form.is_valid():
-            word = form.cleaned_data['word']
-            player_id = form.cleaned_data['player']
-            
-            player = Player.objects.get(id=player_id)
-
-            new_word = GameWord(word=word, player=player, game=player.game)
-            new_word.save()
-    else:
-        form = MessageSender()  
-
-
-
     args = {}
-    args['form'] = form
     return render_to_response('pamplesneak/pamplesneak.html', args, context_instance=RequestContext(request))
 
 def pampleplay(request):
@@ -71,29 +56,47 @@ def pamplewatch(request):
 def joingame(request, game_id, slug):
     game = get_object_or_404(Pamplesneak, pk=game_id)
     user = request.user
+
     word_list = []
     for i in range(0,game.word_bank_size):
         word_list.append(random.choice(WORDS))
 
-    player = Player.objects.filter(game=game).get(name=user.username)
-
+    try:
+       player = Player.objects.filter(game=game).get(name=user.username)
+    except Player.DoesNotExist:
+       player = None
+    
     if not player:
-        new_player = Player(game=game, name=user.username)
+        new_player = Player(game=game, user=user, name=user.username)
         new_player.save()
         player = new_player
 
-    user_profile = UserProfile.objects.get(user=user)
-    pample_info = PamplesneakInfo.objects.get(user=user_profile)
+    try:
+        user_profile = UserProfile.objects.get(user=user)
+    except:
+        user_profile = UserProfile(user=user)
+        user_profile.save()
+
+    try:
+        pample_info = PamplesneakInfo.objects.get(user=user_profile)
+    except:
+        pample_info = PamplesneakInfo(user=user_profile)
+        pample_info.save()
 
     pample_info.current_game = player
     pample_info.previous_games.add(player)
     pample_info.save()
 
     if request.method == "POST":
-        form = MessageSender(data=request.POST)
+        players_query = Player.objects.filter(game=game).exclude(id=player.id)
+        players_dict = {}
+        for p in players_query:
+            players_dict[p.id] = p.name
+        form = MessageSender(players_dict, request.POST)
+        print form.is_bound
         if form.is_valid():
             word = form.cleaned_data['word']
-            player_id = form.cleaned_data['player']
+            player_id = form.cleaned_data['players']
             
             player = Player.objects.get(id=player_id)
 
@@ -107,10 +110,13 @@ def joingame(request, game_id, slug):
             args['word_bank_size'] = game.word_bank_size
             args['game'] = game
             args['player'] = player
-            return render_to_response('pamplesneak/ingame.html', args, context_instance=RequestContext(request))
+            return HttpResponseRedirect('')
     else:
-        form = MessageSender()  
-
+        players_query = Player.objects.filter(game=game).exclude(id=player.id)
+        players_dict = {}
+        for p in players_query:
+            players_dict[p.id] = p.name
+        form = MessageSender(players_dict)
     args = {}
     args['form'] = form
     args['word'] = random.choice(WORDS)

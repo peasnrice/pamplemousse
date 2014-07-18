@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from userprofile.models import PamplesneakInfo
 from django.template.defaultfilters import slugify
 import random
+import datetime
 
 class Pamplesneak(models.Model):
     game_name = models.CharField(max_length = 32)
@@ -22,7 +23,8 @@ class Pamplesneak(models.Model):
         return self.game_name
 
 class Player(models.Model):
-    game = models.ForeignKey('Pamplesneak')
+    game = models.ForeignKey('Pamplesneak', related_name='pamplesneak_game')
+    user = models.ForeignKey(User, related_name='pamplesneak_user')
     name = models.CharField(max_length=64, null=True, blank=True)
     nick = models.CharField(max_length=64, null=True, blank=True)
     def __unicode__(self):
@@ -30,7 +32,9 @@ class Player(models.Model):
 
 class GameWord(models.Model):
     game = models.ForeignKey('Pamplesneak')
-    player = models.ForeignKey('Player')
+    player = models.ForeignKey('Player', null=True, blank=True)
     word = models.CharField(max_length=45)
+    created = models.DateTimeField(auto_now_add=True)
     def __unicode__(self):
         return self.word
+

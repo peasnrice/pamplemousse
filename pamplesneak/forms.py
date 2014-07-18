@@ -1,9 +1,6 @@
 from django import forms
 from models import Pamplesneak
 from django.contrib.auth.models import User
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Div, Submit, HTML, Button, Row, Field
-from crispy_forms.bootstrap import FormActions
 
 class PamplesneakForm(forms.ModelForm):
     class Meta:
@@ -13,7 +10,13 @@ class PamplesneakForm(forms.ModelForm):
 
 class MessageSender(forms.Form):
 
-    player_query = dict(User.objects.values_list('id', 'username'))
-
     word = forms.CharField()
-    player = forms.ChoiceField(choices=player_query.items(), widget=forms.RadioSelect())
+
+    #players = forms.ChoiceField(choices=players.items(), widget=forms.RadioSelect())
+    #player_query = dict(User.objects.values_list('id', 'username'))
+    #player = forms.ChoiceField(choices=player_query.items(), widget=forms.RadioSelect())
+
+    def __init__(self, players, *args, **kwargs):
+        super(MessageSender, self).__init__(*args, **kwargs)
+        #now we add each question individually
+        self.fields['players'] = forms.ChoiceField(choices=players.items(), widget=forms.RadioSelect())

@@ -21,8 +21,13 @@ def refresh_words(request, word_bank_size):
 
 @dajaxice_register
 def refreshWord(request, game_id, player_id):
-    game_word = GameWord.objects.filter(game=game_id, player=player_id)
-    player_word = game_word[0].word
+    game_words = GameWord.objects.filter(game=game_id).filter(player=player_id).order_by('created')
+    player_words = ""
+    if not game_words:
+        player_word = ""
+    else:
+        player_word = game_words[0].word
+
     dajax = Dajax()
     render = render_to_string('pamplesneak/playerword.html', {'player_word': player_word})
     dajax.assign('#player_word', 'innerHTML', render)
@@ -30,8 +35,45 @@ def refreshWord(request, game_id, player_id):
 
 @dajaxice_register
 def randomizeWord(request):
-    dajax = Dajax()
     random_word = random.choice(WORDS)
-    render = render_to_string('pamplesneak/playerword.html', {'random_word': random_word})
+    return simplejson.dumps({'random_word':random_word})
+
+@dajaxice_register
+def wordSuccess(request, game_id, player_id):
+    game_words = GameWord.objects.filter(game=game_id).filter(player=player_id).order_by('created')
+    game_words[0].player=None
+    game_words[0].save()
+
+    game_words = GameWord.objects.filter(game=game_id).filter(player=player_id).order_by('created')
+    player_words = ""
+    if not game_words:
+        player_word = ""
+    else:
+        player_word = game_words[0].word
+
+    dajax = Dajax()
+    render = render_to_string('pamplesneak/playerword.html', {'player_word': player_word})
     dajax.assign('#player_word', 'innerHTML', render)
+
     return dajax.json()
+
+@dajaxice_register
+def wordFail(request, game_id, player_id):
+    game_words = GameWord.objects.filter(game=game_id).filter(player=player_id).order_by('created')
+    game_words[0].player=None
+    game_words[0].save()
+
+    game_words = GameWord.objects.filter(game=game_id).filter(player=player_id).order_by('created')
+    player_words = ""
+    if not game_words:
+        player_word = ""
+    else:
+        player_word = game_words[0].word
+
+    dajax = Dajax()
+    render = render_to_string('pamplesneak/playerword.html', {'player_word': player_word})
+    dajax.assign('#player_word', 'innerHTML', render)
+
+    return dajax.json()
+
+    
