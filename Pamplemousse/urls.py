@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.views.generic.base import RedirectView
 from dajaxice.core import dajaxice_autodiscover, dajaxice_config
 dajaxice_autodiscover()
 from django.contrib import admin
@@ -8,6 +9,7 @@ urlpatterns = patterns('',
     url(r'^$', 'Pamplemousse.views.home', name='home'),
     (r'^pampleaccounts/logout/$', 'django.contrib.auth.views.logout',
      {'next_page': '/'}),
+    url(r'^favicon\.ico$', RedirectView.as_view(url='static/assets/ico/favicon.ico')),
     url(r'^pampleaccounts/', include('allauth.urls')), 
     url(r'^pampleadmin/', include(admin.site.urls)),
     url(r'^pampleprofile/', include('userprofile.urls')),
