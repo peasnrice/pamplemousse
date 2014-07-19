@@ -46,23 +46,8 @@
             </div>
             <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                  <a href="{% url 'pamplesneak' %}" class="dropdown-toggle" data-toggle="dropdown">Pamplesneak<span class="caret"></span></a>
-                  <ul class="dropdown-menu" role="menu">
-                    <div class="centered">
-                      <li>
-                        <a href="{% url 'pamplewatch' %}" role="button">Watch!</a>
-                      </li>  
-                      <li>                      
-                        <a href="{% url 'pampleref' %}" role="button">Ref!</a>
-                      </li>  
-                      <li>
-                        <a href="{% url 'pampleplay' %}" role="button">Play!</a>                      
-                      </li>
-                    </div>
-                  </ul>
                   <li>
-                    <a href="/pamplesneak">Pamplegames</a>
+                    <a href="/pamplesneak/pampleplay">Pamplesneak</a>
                   </li>  
                 {% if user.is_authenticated %}
                   <li>
@@ -109,18 +94,6 @@
       <div class="container">
         <div class="row">
           <div class="centered">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
-              <a href="mailto:andy@p2pquests.com?Subject=Greetings!" target="_top">Contact Us</a>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <a href="https://facebook.com/p2pquests" target="_blank">Facebook</a>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <a href="https://twitter.com/p2pquests" target="_blank">Twitter</a>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <a href="http://ca.linkedin.com/pub/andrew-evans/64/a03/69a/" target="_blank">LinkedIn</a>
-            </div>
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
               <a href="pampleadmin/" target="_blank">Pampleadmin</a>
             </div>

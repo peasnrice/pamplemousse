@@ -51,25 +51,27 @@ $(function(){
     </div>
   </div>
  </div>
+</div>
+
 <div class="container">
   {% if games_list %}
   <h1>Games going on right now</h1>
       {% for game in games_list %}
-      <div class="row">
-        <div class="col-md-3">
-          <table>
-            <tr><td>Pamplesneak number:</td><td>{{ game.id }}</td></tr>    
-            <tr><td>name:</td><td>{{ game.game_name }}</td></tr>
-            <tr><td>players:</td><td>{{ game.active_players }}/{{ game.max_players }}</td></tr>
-            <tr><td>word bank size:</td><td>{{ game.word_bank_size }}</td></tr>
-          </table>
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+          <div class="col-md-7">
+            <h2 class="featurette-heading">Game Name:<span class="text-muted"> {{ game.game_name }}</span></h2>
+            <h2 class="featurette-heading">Active Players:<span class="text-muted"> {{ game.active_players }}</span></h2>
+            <div class="col-md-4">
+              <a class="btn btn-warning" href="{% url 'joingame' game_id=game.id slug=game.slug %}" role="button">Join Game!</a>
+            </div>
+          </div>
         </div>
-        <div class="col-md-3">
-          <a class="btn btn-warning" href="{% url 'joingame' game_id=game.id slug=game.slug %}" role="button">Join Game!</a>
-        </div>
-      </div>
+        <hr class="featurette-divider">
       {% endfor %}
-  {% endif %}
+    {% endif %}
+    </div>
   </div>
 </div>
 {% endblock %}

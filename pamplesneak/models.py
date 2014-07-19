@@ -11,6 +11,7 @@ class Pamplesneak(models.Model):
     number_of_players = models.IntegerField(default = 2)
     word_bank_size = models.IntegerField(default = 5)
     active = models.BooleanField(default=True)
+    created = models.DateTimeField(auto_now_add=True)
     def getCurrentPlayers(self):
         players_in_game = PamplesneakInfo.objects.filter(current_game=self).count()
         return players_in_game
