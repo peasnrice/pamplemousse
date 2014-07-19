@@ -22,6 +22,10 @@ function refresh_in_game_stats(){
   Dajaxice.pamplesneak.refreshInGameStats(Dajax.process,{'game_id':{{ game.id }},'player_id':{{ player.id }}});
 }
 
+function refresh_form(){
+  Dajaxice.pamplesneak.refreshForm(Dajax.process,{'game_id':{{ game.id }},'player_id':{{ player.id }},'csrfmiddlewaretoken': {{ csrf_token }}});
+}
+
 setInterval(function(){refresh_word();refresh_in_game_stats();},10000);
 
 $(function(){
@@ -59,8 +63,10 @@ function randomPlayer(){
   <div class="col-md-12">
     <div class="well well-sm">
       <div class="centered">
-        <h1>Welcome to the Pamplesneak lobby!</h1>
-        <p>Please wait here while we connect you with another player, or don't.</p>
+        <p><h1>Welcome to the Pamplesneak game</h1></p>
+        <p><h1>{{game.game_name}}!</h1></p>
+        <a class="btn btn-warning" href="{% url 'pampleplay' %}" role="button">Back to Lobby</a>
+      </div>
       </div>
     </div>
   </div>
@@ -87,15 +93,7 @@ function randomPlayer(){
         <button id="random_player_button" class="btn btn-warning" value="Randomize Player" onclick="randomPlayer();">
           Random Player
         </button>
-        <form action="" method="POST">
-          {% csrf_token %}
-          {% bootstrap_form form %} 
-          {% buttons %}
-            <button type="submit" class="btn btn-warning" value="Send Word">
-              Send Word
-            </button>
-          {% endbuttons %}
-        </form>
+        {% include "pamplesneak/messageform.html" %}
       </div>
     </div>
   </div>

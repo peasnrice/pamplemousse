@@ -3,6 +3,7 @@ from django.utils import simplejson
 from dajaxice.decorators import dajaxice_register
 from django.template.loader import render_to_string
 from pamplesneak.models import GameWord, Player
+from pamplesneak.forms import MessageSender
 import random
 
 word_file = "/usr/share/dict/words"
@@ -91,3 +92,18 @@ def refreshInGameStats(request, game_id, player_id):
     render = render_to_string('pamplesneak/ingamestats.html', {'players': players})
     dajax.assign('#ingame_stats', 'innerHTML', render)
     return dajax.json()
+
+@dajaxice_register
+def refreshForm(request, game_id, player_id, csrfmiddlewaretoken):
+    all_players_query = Player.objects.filter(game=game_id)
+    players_query = all_players_query.exclude(id=player_id)
+    players_dict = {}
+    for p in players_query:
+        players_dict[p.id] = p.name
+    form = MessageSender(players_dict)
+
+    dajax = Dajax()
+    render = render_to_string('pamplesneak/messageform.html', {'form': form, 'csrfmiddlewaretoken':csrfmiddlewaretoken})
+    dajax.assign('#messageform', 'innerHTML', render)
+    return dajax.json()
+

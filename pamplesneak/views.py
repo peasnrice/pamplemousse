@@ -20,7 +20,7 @@ class GameInfo():
       self.active = active
 
 def getActiveGames():
-    games = Pamplesneak.objects.filter(active=True).order_by('created')
+    games = Pamplesneak.objects.filter(active=True).order_by('-created')
     games_list = [] 
     for game in games:
         gi = GameInfo(game.id,

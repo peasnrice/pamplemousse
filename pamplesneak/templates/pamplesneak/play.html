@@ -57,18 +57,18 @@ $(function(){
   {% if games_list %}
   <h1>Games going on right now</h1>
       {% for game in games_list %}
-        <hr class="featurette-divider">
-
-        <div class="row featurette">
-          <div class="col-md-7">
+        {% if forloop.counter0|divisibleby:4 %}
+          <hr class="featurette-divider">
+          <div class="row featurette">
+        {% endif %}
+          <div class="col-md-3">
             <h2 class="featurette-heading">Game Name:<span class="text-muted"> {{ game.game_name }}</span></h2>
             <h2 class="featurette-heading">Active Players:<span class="text-muted"> {{ game.active_players }}</span></h2>
-            <div class="col-md-4">
-              <a class="btn btn-warning" href="{% url 'joingame' game_id=game.id slug=game.slug %}" role="button">Join Game!</a>
-            </div>
+            <a class="btn btn-warning" href="{% url 'joingame' game_id=game.id slug=game.slug %}" role="button">Join Game!</a>
           </div>
-        </div>
-        <hr class="featurette-divider">
+        {% if forloop.counter|divisibleby:4 %}
+          </div>
+        {% endif %}
       {% endfor %}
     {% endif %}
     </div>

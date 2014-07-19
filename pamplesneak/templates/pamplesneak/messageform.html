@@ -1,0 +1,14 @@
+{% load bootstrap3 %}
+{% load dajaxice_templatetags %}
+<div id="messageform">
+
+	<form action="" method="POST">
+	  {% csrf_token %}
+	  {% bootstrap_form form %} 
+	  {% buttons %}
+	    <button type="submit" class="btn btn-warning" value="Send Word">
+	      Send Word
+	    </button>
+	  {% endbuttons %}
+	</form>
+</div>
