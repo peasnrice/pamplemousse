@@ -39,4 +39,3 @@ class GameWord(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     def __unicode__(self):
         return self.word
-
