@@ -36,7 +36,7 @@ class Player(models.Model):
 class GameWord(models.Model):
     game = models.ForeignKey('Pamplesneak')
     player = models.ForeignKey('Player', null=True, blank=True)
-    word = models.CharField(max_length=45)
+    word = models.CharField(max_length=64)
     created = models.DateTimeField(auto_now_add=True)
     def __unicode__(self):
         return self.word

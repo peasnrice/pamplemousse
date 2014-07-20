@@ -9,7 +9,7 @@ class PamplesneakForm(forms.ModelForm):
 
 class MessageSender(forms.Form):
 
-    word = forms.CharField()
+    word = forms.CharField(max_length=64)
 
     #players = forms.ChoiceField(choices=players.items(), widget=forms.RadioSelect())
     #player_query = dict(User.objects.values_list('id', 'username'))
