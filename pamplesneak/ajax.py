@@ -24,13 +24,16 @@ def refresh_words(request, word_bank_size):
 def refreshWord(request, game_id, player_id):
     game_words = GameWord.objects.filter(game=game_id).filter(player=player_id).order_by('created')
     player_words = ""
+    sender = ""
     if not game_words:
         player_word = ""
     else:
         player_word = game_words[0].word
+        if game_words[0].created_by:
+            sender = game_words[0].created_by
 
     dajax = Dajax()
-    render = render_to_string('pamplesneak/playerword.html', {'player_word': player_word})
+    render = render_to_string('pamplesneak/playerword.html', {'player_word': player_word, 'sender':sender})
     dajax.assign('#player_word', 'innerHTML', render)
     return dajax.json()
 
@@ -50,14 +53,16 @@ def wordSuccess(request, game_id, player_id):
     player.save()
 
     game_words = GameWord.objects.filter(game=game_id).filter(player=player_id).order_by('created')
-    player_words = ""
+    sender = ""
     if not game_words:
         player_word = ""
     else:
         player_word = game_words[0].word
+        if game_words[0].created_by:
+            sender = game_words[0].created_by
 
     dajax = Dajax()
-    render = render_to_string('pamplesneak/playerword.html', {'player_word': player_word})
+    render = render_to_string('pamplesneak/playerword.html', {'player_word': player_word, 'sender': sender})
     dajax.assign('#player_word', 'innerHTML', render)
     return dajax.json()
 
@@ -73,13 +78,16 @@ def wordFail(request, game_id, player_id):
 
     game_words = GameWord.objects.filter(game=game_id).filter(player=player_id).order_by('created')
     player_words = ""
+    sender = ""
     if not game_words:
         player_word = ""
     else:
         player_word = game_words[0].word
+        if game_words[0].created_by:
+            sender = game_words[0].created_by
 
     dajax = Dajax()
-    render = render_to_string('pamplesneak/playerword.html', {'player_word': player_word})
+    render = render_to_string('pamplesneak/playerword.html', {'player_word': player_word, 'sender': sender})
     dajax.assign('#player_word', 'innerHTML', render)
 
     return dajax.json()

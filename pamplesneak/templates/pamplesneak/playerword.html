@@ -1,10 +1,31 @@
 {% load bootstrap3 %}
 {% load dajaxice_templatetags %}
 
+<script>
+$( document ).ready(function() {
+  $('.game_word').hide();
+});
+
+function toggle_reveal(){
+	$('.game_word').toggle();
+}
+
+</script>
+
 <div id="player_word">
 	{% if player_word %}
-	    <h1>YOUR WORD IS<h1>
-		<h2><b>{{ player_word }}</b></h2>
+	    <h1>YOUR WORD IS</h1>
+		<button id="reveal_button" class="btn btn-success" value="fail" onclick="toggle_reveal();">Show/Hide Word</button>
+	    <div class="game_word">
+			<h2><b>{{ player_word }}</b></h2>
+		</div>
+		<p>sent by
+		{% if sender %}
+			<i>{{ sender }}</i>
+		{% else %}
+			<i>anonymous</i>
+		{% endif %}
+		</p>
         <p>I said my word and <button id="succeeded_button" class="btn btn-xs btn-warning" value="succeed" onclick="word_succeed();">
           Succeeded
         </button> <b>/</b>
