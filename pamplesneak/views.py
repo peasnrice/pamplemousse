@@ -102,15 +102,15 @@ def joingame(request, game_id, slug):
             """gets form data"""
             word = form.cleaned_data['word']
             player_id = form.cleaned_data['players']
-            player = Player.objects.get(id=player_id)
+            to_player = Player.objects.get(id=player_id)
 
             """attaches sender signature to object"""
             if form.cleaned_data['send_anonymously'] == True:
                 created_by = None
             else:
-                created_by = Player.objects.get(id=player.id)
+                created_by = player
 
-            new_word = GameWord(word=word, player=player, game=player.game, send_to = player, created_by = created_by)
+            new_word = GameWord(word=word, player=to_player, game=player.game, send_to = player, created_by = created_by)
             new_word.save()
 
             args = {}

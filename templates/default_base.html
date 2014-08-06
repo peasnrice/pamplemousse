@@ -14,7 +14,7 @@
   <meta name="author" content="">
   <link rel="shortcut icon" type="image/png" href="http://pamplesneak.com/favicon.ico" />
 
-  <title>Pamplemousse!</title>
+  <title>Pamplesneak!</title>
 
   <!-- Custom styles for this template -->
   <link href="{% static "dist/css/custom.css" %}" rel="stylesheet">
@@ -54,14 +54,14 @@
                     <a href="/pampleprofile">{{ user.username }}</a>
                   </li>   
                   <li>
-                    <a href="/pampleaccounts/logout">log out</a>
+                    <a href="/accounts/logout">log out</a>
                   </li>   
                 {% else %}  
                   <li>
-                    <a href="/pampleaccounts/signup">sign up</a>
+                    <a href="/accounts/signup">sign up</a>
                   </li>
                   <li>
-                    <a href="/pampleaccounts/login">log in</a>
+                    <a href="/accounts/login">log in</a>
                   </li>       
                 {% endif %}
               </ul>
@@ -95,7 +95,6 @@
         <div class="row">
           <div class="centered">
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <a href="pampleadmin/" target="_blank">Pampleadmin</a>
             </div>
           </div>
         </div>
