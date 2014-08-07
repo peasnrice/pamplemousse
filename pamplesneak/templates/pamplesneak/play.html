@@ -58,14 +58,15 @@ $(function(){
   <h1>Games going on right now</h1>
       {% for game in games_list %}
         {% if forloop.counter0|divisibleby:4 %}
-          <hr class="featurette-divider">
           <div class="row featurette">
         {% endif %}
           <div class="col-md-3">
+            <div class="well well-sm">
             <h2 class="featurette-heading">Game Name:<span class="text-muted"> {{ game.game_name }}</span></h2>
             <h2 class="featurette-heading">Active Players:<span class="text-muted"> {{ game.active_players }}</span></h2>
             <a class="btn btn-warning" href="{% url 'joingame' game_id=game.id slug=game.slug %}" role="button">Join Game!</a>
           </div>
+        </div>
         {% if forloop.counter|divisibleby:4 %}
           </div>
         {% endif %}
