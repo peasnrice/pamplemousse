@@ -3,6 +3,7 @@ from pamplesneak.models import Pamplesneak, Player, GameWord
 from pamplesneak.forms import PamplesneakForm, MessageSender
 from userprofile.models import UserProfile, PamplesneakInfo
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import never_cache
 from django.contrib.auth.models import User
 import random
 
@@ -53,6 +54,7 @@ def pamplewatch(request):
     return render_to_response('pamplesneak/watch.html', args, context_instance=RequestContext(request))
 
 @login_required
+@never_cache
 def joingame(request, game_id, slug):
     game = get_object_or_404(Pamplesneak, pk=game_id)
     user = request.user
