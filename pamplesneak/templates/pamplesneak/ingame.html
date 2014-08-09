@@ -11,6 +11,10 @@
 
 <script>
 
+$(document).ready(function() {
+  $.ajaxSetup({ cache: false });
+});
+
 function refresh_words(word_bank_size){
   Dajaxice.pamplesneak.refresh_words(Dajax.process,{'word_bank_size':word_bank_size});
 }
